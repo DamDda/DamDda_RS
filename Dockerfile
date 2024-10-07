@@ -8,7 +8,7 @@ COPY requirements.txt .
 
 RUN apt-get update -y
 
-RUN apt-get install build-essential
+RUN apt install build-essential
 
 RUN apt-get install -y libmariadb-dev
 
