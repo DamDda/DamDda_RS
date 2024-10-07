@@ -9,20 +9,25 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from .application import DataSource
 
+dataSource = DataSource()
+
 class TFIDF_Model:
     def __init__(self):
-        self.dataSource = DataSource()
+        self.username = dataSource.username
+        self.password = dataSource.password
+        self.host = dataSource.host
+        self.port = dataSource.port
+        self.database = dataSource.database
         
-
     # MariaDB Connection
     def getConnection(self):
         try:
             connection = mariadb.connect(
-                user=self.dataSource.username,
-                password=self.dataSource.password,
-                host=self.dataSource.host,
-                port=self.dataSource.port,
-                database=self.dataSource.database
+                user=self.username,
+                password=self.password,
+                host=self.host,
+                port=self.port,
+                database=self.database
             )
         except mariadb.Error as e:
             print(f"Error : Connecting to MariaDB !\n{e}")
