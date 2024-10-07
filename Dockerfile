@@ -4,7 +4,11 @@ WORKDIR /app
 
 COPY requirements.txt .
 
-RUN pip install --upgrade pip
+# RUN pip install --upgrade pip
+
+RUN apt-get update -y
+
+RUN apt-get install -y libmariadb-dev
 
 RUN pip install --no-cache-dir -r requirements.txt
 
