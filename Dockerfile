@@ -8,6 +8,8 @@ COPY requirements.txt .
 
 RUN apt-get update -y
 
+RUN apt-get install build-essential
+
 RUN apt-get install -y libmariadb-dev
 
 RUN pip install --no-cache-dir -r requirements.txt
