@@ -1,5 +1,5 @@
 from src import create_app
-from application import HOST, PORT
+from src.application import HOST, PORT
 
 app = create_app()
 
