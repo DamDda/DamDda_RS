@@ -6,4 +6,7 @@ model = TFIDF_Model()
 
 @main_bp.route("/api/recommend/<int:member_id>", methods=["GET"])
 def getRecommendation(member_id):
-    return model.getRecommendationFromMemberId(member_id)
+    try:
+        return model.getRecommendationFromMemberId(member_id)
+    except Exception as e:
+        return str(e), 500
