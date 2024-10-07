@@ -1,4 +1,4 @@
-# server configuration
+# server configuration!
 
 PORT = 5000
 
