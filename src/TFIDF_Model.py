@@ -11,17 +11,18 @@ from ..application import DataSource
 
 class TFIDF_Model:
     def __init__(self):
-        pass
+        self.dataSource = DataSource()
+        
 
     # MariaDB Connection
     def getConnection(self):
         try:
             connection = mariadb.connect(
-                user=DataSource.username,
-                password=DataSource.password,
-                host=DataSource.host,
-                port=DataSource.port,
-                database=DataSource.database
+                user=self.dataSource.username,
+                password=self.dataSource.password,
+                host=self.dataSource.host,
+                port=self.dataSource.port,
+                database=self.dataSource.database
             )
         except mariadb.Error as e:
             print(f"Error : Connecting to MariaDB !\n{e}")
