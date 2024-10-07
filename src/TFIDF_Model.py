@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 
 from sklearn.feature_extraction.text import TfidfVectorizer
-
+from application import DataSource
 
 class TFIDF_Model:
     def __init__(self):
@@ -17,11 +17,11 @@ class TFIDF_Model:
     def getConnection(self):
         try:
             connection = mariadb.connect(
-                user="damdda",
-                password="damdda",
-                host="localhost",
-                port=6506,
-                database="damdda"
+                user=DataSource.username,
+                password=DataSource.password,
+                host=DataSource.host,
+                port=DataSource.port,
+                database=DataSource.database
             )
         except mariadb.Error as e:
             print(f"Error : Connecting to MariaDB !\n{e}")
