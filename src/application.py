@@ -5,7 +5,6 @@ PORT = 5000
 HOST = "0.0.0.0"
 
 # For Deployment
-
 class DataSource:
     def __init__(self):
         self.host = "db-pf7p3.vpc-cdb.ntruss.com"
