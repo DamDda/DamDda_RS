@@ -49,7 +49,7 @@ class TFIDF_Model:
         conn = self.getConnection()
 
         if column == "tag":
-            query = "SELECT project_id, REPLACE(name, ' ', '') FROM project_tag as P INNER JOIN tags as T ON P.tags_id = T.id WHERE project_id in (SELECT project_id FROM admin_approvals WHERE approval=1)"
+            query = "SELECT project_id, REPLACE(name, ' ', '') FROM project_tag as P INNER JOIN tags as T ON P.tags_id = T.id WHERE P.project_id in (SELECT project_id FROM admin_approvals WHERE approval=1)"
 
             conn.execute(query)
             df_tag = pd.DataFrame(conn.fetchall())
