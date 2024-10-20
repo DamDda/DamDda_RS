@@ -61,6 +61,7 @@ class TFIDF_Model:
                     tag_list = df_tag.loc[df_tag.projectId==projectId]["tagName"].values
                     tag_string = " ".join(tag_list)
                     corpus[projectId] = tag_string
+            corpus = {key:value for key, value in corpus.items() if value != ''}
         else:
             query = f'SELECT id, {column} FROM projects WHERE id in (SELECT project_id FROM admin_approvals WHERE approval=1)'
 
@@ -72,7 +73,6 @@ class TFIDF_Model:
     
     # Calculate tf-idf value from corpus
     def corpus2tfidf(self, corpus):
-        print(corpus)
         tfidfv = TfidfVectorizer().fit(corpus.values())
         return tfidfv.transform(corpus.values()).toarray()
 
@@ -92,7 +92,7 @@ class TFIDF_Model:
             for column in ["title", "description", "description_detail", "tag"]], axis=1)
 
         result = self.tfidf2similarity(corpus=self.getCorpus("title"), tfidf_matrix=project_representation)
-        return result.loc[projectId].sort_values(ascending=False).index.values, result
+        return result.loc[projectId].sort_values(ascending=False).index.values
     
     # Aggregation recommendation rakings
     def aggregationIndices(self, rankings):
