@@ -49,7 +49,7 @@ class TFIDF_Model:
         conn = self.getConnection()
 
         if column == "tag":
-            query = "SELECT project_id, REPLACE(name, ' ', '') FROM project_tag as P INNER JOIN tags as T ON P.tags_id = T.id"
+            query = "SELECT project_id, REPLACE(name, ' ', '') FROM project_tag as P INNER JOIN tags as T ON P.tags_id = T.id WHERE project_id in (SELECT project_id FROM admin_approvals WHERE approval=1)"
 
             conn.execute(query)
             df_tag = pd.DataFrame(conn.fetchall())
@@ -62,7 +62,7 @@ class TFIDF_Model:
                     tag_string = " ".join(tag_list)
                     corpus[projectId] = tag_string
         else:
-            query = f'SELECT id, {column} FROM projects'
+            query = f'SELECT id, {column} FROM projects WHERE id in (SELECT project_id FROM admin_approvals WHERE approval=1)'
 
             conn.execute(query)
             corpus = {id:value for id, value in conn.fetchall()}
@@ -72,6 +72,7 @@ class TFIDF_Model:
     
     # Calculate tf-idf value from corpus
     def corpus2tfidf(self, corpus):
+        print(corpus)
         tfidfv = TfidfVectorizer().fit(corpus.values())
         return tfidfv.transform(corpus.values()).toarray()
 
@@ -91,7 +92,7 @@ class TFIDF_Model:
             for column in ["title", "description", "description_detail", "tag"]], axis=1)
 
         result = self.tfidf2similarity(corpus=self.getCorpus("title"), tfidf_matrix=project_representation)
-        return result.loc[projectId].sort_values(ascending=False).index.values
+        return result.loc[projectId].sort_values(ascending=False).index.values, result
     
     # Aggregation recommendation rakings
     def aggregationIndices(self, rankings):
